@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define Nodo struct nodo 
+
+Nodo{
+	int dato;
+	Nodo*izq,*der;
+};
+Nodo*raiz=NULL;
+int k;
+
+void insertarArbol(int dato){
+	Nodo*aux=raiz,*ant=NULL;
+	Nodo*nuevo=(Nodo*)malloc(sizeof(Nodo));
+	nuevo->dato=dato;
+	nuevo->izq=NULL;
+	nuevo->der=NULL;
+	while(aux!=NULL){
+		ant=aux;
+		if(nuevo->dato>aux->dato){
+			aux=aux->der;
+			
+		}else{
+			aux=aux->izq;
+		}
+	}
+	if(ant==NULL){
+		raiz=nuevo;
+	}else if(nuevo->dato>ant->dato){
+		ant->der=nuevo;
+	}else{
+		ant->izq=nuevo;
+	}
+}
+
+void preorden (Nodo *r){
+    if (r!=NULL){
+	 printf("%d ",r->dato);
+     preorden(r->izq);
+     preorden(r->der);
+    }
+}
+
+void enorden(Nodo*r){
+	if(r!=NULL){
+		if(r->dato==k){
+        preorden(r);	
+        return;
+    	}
+		enorden(r->izq);
+		enorden(r->der);
+	}
+}
+
+int main(){
+	int T,i,x;
+	do{
+		scanf("%i",&T);
+	}while(T<3 || T>1000000);
+	for(i=0;i<T;i++){
+		scanf("%i",&x);
+		insertarArbol(x);
+	}
+	scanf("%i",&k);
+	enorden(raiz);
+}
